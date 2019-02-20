@@ -1,0 +1,31 @@
+a[href^="http://maps.google.com/maps"] {
+    display: none !important;
+}
+a[href^="https://maps.google.com/maps"] {
+    display: none !important;
+}
+
+img[src="https://maps.gstatic.com/mapfiles/api-3/images/google4.png"] {
+    display: none !important;
+}
+
+.gmnoprint a,
+.gmnoprint span,
+.gm-style-cc {
+    display: none;
+}
+.gmnoprint div {
+    background: none !important;
+}
+
+a[href^="http://maps.google.com/maps"],
+a[href^="https://maps.google.com/maps"],
+a[href^="https://www.google.com/maps"] {
+    display: none !important;
+}
+.gm-bundled-control .gmnoprint {
+    display: block;
+}
+.gmnoprint:not(.gm-bundled-control) {
+    display: none;
+}
