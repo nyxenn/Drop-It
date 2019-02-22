@@ -1,59 +1,61 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { TabsPage } from "./tabs.page";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
     {
-        path: "tabs",
+        path: 'tabs',
         component: TabsPage,
         children: [
             {
-                path: "tab1",
+                path: 'map',
                 children: [
                     {
-                        path: "",
-                        loadChildren: "../tab1/tab1.module#Tab1PageModule"
+                        path: '',
+                        loadChildren:
+                            '../tab-map/tab-map.module#TabMapPageModule'
                     }
                 ]
             },
             {
-                path: "tab2",
+                path: 'tab1',
                 children: [
                     {
-                        path: "",
-                        loadChildren: "../tab2/tab2.module#Tab2PageModule"
+                        path: '',
+                        loadChildren: '../tab1/tab1.module#Tab1PageModule'
                     }
                 ]
             },
             {
-                path: "tab3",
+                path: 'tab3',
                 children: [
                     {
-                        path: "",
-                        loadChildren: "../tab3/tab3.module#Tab3PageModule"
+                        path: '',
+                        loadChildren: '../tab3/tab3.module#Tab3PageModule'
                     }
                 ]
             },
-            // {
-            //     path: "tab4",
-            //     children: [
-            //         {
-            //             path: "",
-            //             loadChildren: "../tab4/tab4.module#Tab4PageModule"
-            //         }
-            //     ]
-            // },
             {
-                path: "",
-                redirectTo: "/tabs/tab1",
-                pathMatch: "full"
+                path: 'info',
+                children: [
+                    {
+                        path: '',
+                        loadChildren:
+                            '../tab-info/tab-info.module#TabInfoPageModule'
+                    }
+                ]
+            },
+            {
+                path: '',
+                redirectTo: '/tabs/map',
+                pathMatch: 'full'
             }
         ]
     },
     {
-        path: "",
-        redirectTo: "/tabs/tab1",
-        pathMatch: "full"
+        path: '',
+        redirectTo: '/tabs/map',
+        pathMatch: 'full'
     }
 ];
 
