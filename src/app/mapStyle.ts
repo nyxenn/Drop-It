@@ -135,7 +135,7 @@ const mapStyle = [
         elementType: 'geometry.fill',
         stylers: [
             {
-                color: '#116466'
+                color: '#c09245'
             },
             {
                 lightness: '0'
@@ -192,7 +192,7 @@ const mapStyle = [
         elementType: 'geometry.fill',
         stylers: [
             {
-                color: '#575757'
+                color: '#695937'
             }
         ]
     },
@@ -286,7 +286,7 @@ export const mapOptions: GoogleMapOptions = {
         rotate: true
     },
     camera: {
-        zoom: 18,
+        zoom: 8,
         tilt: 30
     },
     styles: mapStyle

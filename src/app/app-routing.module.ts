@@ -2,15 +2,29 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' },
-  { path: 'tab-map', loadChildren: './tab-map/tab-map.module#TabMapPageModule' },
-  { path: 'tab-info', loadChildren: './tab-info/tab-info.module#TabInfoPageModule' },
-  { path: 'modal-write', loadChildren: './modal-write/modal-write.module#ModalWritePageModule' }
+    { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' },
+    {
+        path: 'tab-map',
+        loadChildren: './tab-map/tab-map.module#TabMapPageModule'
+    },
+    {
+        path: 'tab-info',
+        loadChildren: './tab-info/tab-info.module#TabInfoPageModule'
+    },
+    {
+        path: 'modal-write',
+        loadChildren: './modal-write/modal-write.module#ModalWritePageModule'
+    },
+    {
+        path: 'modal-details',
+        loadChildren:
+            './modal-details/modal-details.module#ModalDetailsPageModule'
+    }
 ];
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
-  ],
-  exports: [RouterModule]
+    imports: [
+        RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    ],
+    exports: [RouterModule]
 })
 export class AppRoutingModule {}

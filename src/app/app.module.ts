@@ -13,6 +13,7 @@ import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
+import { HaversineService } from 'ng2-haversine';
 
 import { Firebase } from '@ionic-native/firebase/ngx';
 import { AngularFireModule } from 'angularfire2';
@@ -37,7 +38,8 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
         GoogleMaps,
         Geolocation,
         UniqueDeviceID,
-        Firebase
+        Firebase,
+        HaversineService
     ],
     bootstrap: [AppComponent]
 })

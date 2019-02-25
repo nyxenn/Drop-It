@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-
-import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 
 @Component({
     selector: 'app-modal-write',
@@ -10,16 +8,10 @@ import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 })
 export class ModalWritePage implements OnInit {
     private message: String;
-    constructor(private view: ModalController, private udid: UniqueDeviceID) {}
-    private uid;
 
-    ngOnInit() {
-        // Get unique device ID
-        this.udid
-            .get()
-            .then((uuid: any) => (this.uid = uuid))
-            .catch((error: any) => console.log('UID error:', error));
-    }
+    constructor(private view: ModalController) {}
+
+    ngOnInit() {}
 
     closeModal() {
         this.view.dismiss();

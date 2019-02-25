@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title><span id="title">MESSAGE DETAILS</span></ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button
+                (click)="closeModal()"
+                default-href=""
+            ></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="info-container">
+        <div class="info-wrapper">
+            <div class="info-box" id="message">{{ msg }}</div>
+
+            <hr />
+
+            <div class="info-box" id="picture">{{ picture }}</div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <div class="button">
+            <ion-ripple-effect></ion-ripple-effect>
+            <ion-icon name="arrow-round-up"></ion-icon>
+        </div>
+
+        <div class="button">
+            <ion-ripple-effect></ion-ripple-effect>
+            <ion-icon name="arrow-round-down"></ion-icon>
+        </div>
+
+        <div class="button">
+            <ion-ripple-effect></ion-ripple-effect>
+            <ion-icon name="contact"></ion-icon>
+        </div>
+    </div>
+</ion-content>

@@ -4,20 +4,20 @@
 /** Ionic CSS Variables **/
 :root {
     /** primary **/
-    --ion-color-primary: #116466;
-    --ion-color-primary-rgb: 17, 100, 102;
-    --ion-color-primary-contrast: #ffffff;
-    --ion-color-primary-contrast-rgb: 255, 255, 255;
-    --ion-color-primary-shade: #0f585a;
-    --ion-color-primary-tint: #297475;
+    --ion-color-primary: #c09245;
+    --ion-color-primary-rgb: 192, 146, 69;
+    --ion-color-primary-contrast: #000000;
+    --ion-color-primary-contrast-rgb: 0, 0, 0;
+    --ion-color-primary-shade: #a9803d;
+    --ion-color-primary-tint: #c69d58;
 
     /** secondary **/
-    --ion-color-secondary: #2d3047;
-    --ion-color-secondary-rgb: 45, 48, 71;
+    --ion-color-secondary: #695937;
+    --ion-color-secondary-rgb: 105, 89, 55;
     --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-contrast-rgb: 255, 255, 255;
-    --ion-color-secondary-shade: #282a3e;
-    --ion-color-secondary-tint: #424559;
+    --ion-color-secondary-shade: #5c4e30;
+    --ion-color-secondary-tint: #786a4b;
 
     /** tertiary **/
     --ion-color-tertiary: #fffd82;
@@ -52,20 +52,20 @@
     --ion-color-danger-tint: #ea5a66;
 
     /** dark **/
-    --ion-color-dark: #222428;
-    --ion-color-dark-rgb: 34, 34, 34;
+    --ion-color-dark: #182120;
+    --ion-color-dark-rgb: 24, 33, 32;
     --ion-color-dark-contrast: #ffffff;
     --ion-color-dark-contrast-rgb: 255, 255, 255;
-    --ion-color-dark-shade: #1e2023;
-    --ion-color-dark-tint: #383a3e;
+    --ion-color-dark-shade: #151d1c;
+    --ion-color-dark-tint: #2f3736;
 
     /** medium **/
-    --ion-color-medium: #989aa2;
-    --ion-color-medium-rgb: 152, 154, 162;
+    --ion-color-medium: #76766e;
+    --ion-color-medium-rgb: 118, 118, 110;
     --ion-color-medium-contrast: #ffffff;
     --ion-color-medium-contrast-rgb: 255, 255, 255;
-    --ion-color-medium-shade: #86888f;
-    --ion-color-medium-tint: #a2a4ab;
+    --ion-color-medium-shade: #686861;
+    --ion-color-medium-tint: #84847d;
 
     /** light **/
     --ion-color-light: #f4f5f8;
