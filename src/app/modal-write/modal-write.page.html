@@ -11,27 +11,61 @@
 </ion-header>
 
 <ion-content padding>
-    <div class="form-item">
-        <ion-label position="floating" color="primary">Message</ion-label>
-        <ion-textarea
-            [(ngModel)]="message"
-            no-padding
-            placeholder="max 255 characters"
-            color="secondary"
-            maxlength="255"
-            minlength="1"
-            required="true"
-            rows="4"
-        ></ion-textarea>
-    </div>
+    <div class="container">
+        <div class="form-wrapper">
+            <div class="form-item">
+                <ion-label position="floating" color="primary"
+                    >Message</ion-label
+                >
+                <ion-textarea
+                    [(ngModel)]="message"
+                    no-padding
+                    placeholder="max 255 characters"
+                    color="secondary"
+                    maxlength="255"
+                    minlength="1"
+                    required="true"
+                    rows="5"
+                ></ion-textarea>
+            </div>
 
-    <ion-button
-        color="primary"
-        id="submit-button"
-        vertical="bottom"
-        (click)="submitForm()"
-    >
-        <ion-ripple-effect></ion-ripple-effect>
-        Submit
-    </ion-button>
+            <hr />
+            <div class="picture-buttons">
+                <ion-button
+                    color="primary"
+                    class="write-button"
+                    id="add-picture"
+                    (click)="addPicture()"
+                    *ngIf="!pictureAdded"
+                >
+                    <ion-ripple-effect></ion-ripple-effect>
+                    <ion-icon name="add" slot="start"></ion-icon>Add picture
+                </ion-button>
+
+                <div class="picture-taken" *ngIf="pictureAdded">
+                    <img [src]="picture" (click)="showPicture()" />
+
+                    <ion-button
+                        color="danger"
+                        class="write-button"
+                        id="delete-picture"
+                        (click)="deletePicture()"
+                        *ngIf="pictureAdded"
+                    >
+                        <ion-ripple-effect></ion-ripple-effect>
+                        <ion-icon name="trash" slot="start"></ion-icon>Delete
+                        picture
+                    </ion-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="submit">
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button color="secondary" (click)="submitForm()">
+                <ion-ripple-effect></ion-ripple-effect>
+                <ion-icon name="send"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+    </div>
 </ion-content>

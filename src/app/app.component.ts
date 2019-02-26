@@ -23,7 +23,9 @@ export class AppComponent {
         this.initializeApp();
         this.androidPermissions
             .requestPermissions([
-                this.androidPermissions.PERMISSION.READ_PHONE_STATE
+                this.androidPermissions.PERMISSION.READ_PHONE_STATE,
+                this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION,
+                this.androidPermissions.PERMISSION.CAMERA
             ])
             .then(() => this.deviceService.getDeviceID());
     }

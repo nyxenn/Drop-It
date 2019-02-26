@@ -6,10 +6,44 @@
     font-family: 'Quicksand', sans-serif;
 }
 
+.container {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    .form-wrapper {
+        height: 75%;
+        width: 100%;
+    }
+
+    hr {
+        border-bottom: 1px solid rgba(131, 131, 131, 0.1);
+        width: 100%;
+    }
+
+    .picture-buttons {
+        height: 50%;
+        width: 100%;
+
+        .picture-taken {
+            height: 100%;
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+}
+
 .form-item {
     border: 1px solid rgba(131, 131, 131, 0.4);
     border-radius: 10px;
     padding: 10px;
+    width: 100%;
 
     ion-label {
         font-size: 16px;
@@ -21,6 +55,7 @@
     }
 }
 
-#submit-button {
+.write-button {
     width: 100%;
+    font-variant-caps: small-caps;
 }

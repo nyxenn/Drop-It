@@ -19,7 +19,8 @@ const routes: Routes = [
         path: 'modal-details',
         loadChildren:
             './modal-details/modal-details.module#ModalDetailsPageModule'
-    }
+    },
+  { path: 'tab-profile', loadChildren: './tab-profile/tab-profile.module#TabProfilePageModule' }
 ];
 @NgModule({
     imports: [
