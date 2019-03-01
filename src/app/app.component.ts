@@ -27,7 +27,11 @@ export class AppComponent {
                 this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION,
                 this.androidPermissions.PERMISSION.CAMERA
             ])
-            .then(() => this.deviceService.getDeviceID());
+            .then(() => {
+                this.deviceService.getDeviceID();
+                this.messageService.getBookmarkedMessages();
+                this.messageService.getRatedMessages();
+            });
     }
 
     initializeApp() {

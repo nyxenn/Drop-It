@@ -1,40 +1,54 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title><span id="title">MESSAGE DETAILS</span></ion-title>
-        <ion-buttons slot="start">
-            <ion-back-button
-                (click)="closeModal()"
-                default-href=""
-            ></ion-back-button>
-        </ion-buttons>
-    </ion-toolbar>
-</ion-header>
+<div class="info-container" (click)="closeModal()">
+    <div class="info-wrapper" (click)="$event.stopPropagation()">
+        <div class="message-box" id="message">
+            {{ msg }}
+        </div>
+        <div class="rating">
+            Rating:&nbsp;
+            <span
+                id="rating"
+                *ngIf="doc"
+                [ngClass]="{ negative: doc.rating < -10 }"
+                >{{ doc.rating }}</span
+            >
+        </div>
+        <div class="buttons">
+            <div class="button" (click)="vote('up')">
+                <ion-ripple-effect></ion-ripple-effect>
+                <ion-icon
+                    name="arrow-round-up"
+                    [ngClass]="{ 'upvote-active': messageUpvoted }"
+                ></ion-icon>
+            </div>
 
-<ion-content>
-    <div class="info-container">
-        <div class="info-wrapper">
-            <div class="info-box" id="message">{{ msg }}</div>
+            <div class="button" (click)="vote('down')">
+                <ion-ripple-effect></ion-ripple-effect>
+                <ion-icon
+                    name="arrow-round-down"
+                    [ngClass]="{ 'downvote-active': messageDownvoted }"
+                ></ion-icon>
+            </div>
 
-            <hr />
+            <div class="button" (click)="showPicture()">
+                <ion-ripple-effect *ngIf="picture"></ion-ripple-effect>
+                <ion-icon
+                    name="image"
+                    [ngClass]="{ 'btn-disabled': !picture }"
+                ></ion-icon>
+            </div>
 
-            <div class="info-box" id="picture">{{ picture }}</div>
+            <div class="button" (click)="bookmark()">
+                <ion-ripple-effect></ion-ripple-effect>
+                <ion-icon
+                    name="bookmark"
+                    [ngClass]="{ bookmarked: messageBookmarked }"
+                ></ion-icon>
+            </div>
+
+            <div class="button">
+                <ion-ripple-effect></ion-ripple-effect>
+                <ion-icon name="contact"></ion-icon>
+            </div>
         </div>
     </div>
-
-    <div class="buttons">
-        <div class="button">
-            <ion-ripple-effect></ion-ripple-effect>
-            <ion-icon name="arrow-round-up"></ion-icon>
-        </div>
-
-        <div class="button">
-            <ion-ripple-effect></ion-ripple-effect>
-            <ion-icon name="arrow-round-down"></ion-icon>
-        </div>
-
-        <div class="button">
-            <ion-ripple-effect></ion-ripple-effect>
-            <ion-icon name="contact"></ion-icon>
-        </div>
-    </div>
-</ion-content>
+</div>

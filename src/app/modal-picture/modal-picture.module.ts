@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ModalDetailsPage } from './modal-details.page';
+import { ModalPicturePage } from './modal-picture.page';
 
 @NgModule({
     imports: [CommonModule, FormsModule, IonicModule],
-    declarations: [ModalDetailsPage],
-    entryComponents: [ModalDetailsPage]
+    declarations: [ModalPicturePage],
+    entryComponents: [ModalPicturePage]
 })
-export class ModalDetailsPageModule {}
+export class ModalPicturePageModule {}

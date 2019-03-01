@@ -38,14 +38,11 @@ export class SvMapService {
         private haversine: HaversineService
     ) {}
 
-    createMap(mapElement, mapOptions) {
-        return GoogleMaps.create(mapElement, mapOptions);
-    }
-
     setMap(map: GoogleMap) {
         this.map = map;
     }
 
+    // Get user location, center map on user and draw discovery radius
     async prepareMap() {
         // Show loading indicator
         this.loading = await this.loadingCtrl.create({
@@ -100,14 +97,15 @@ export class SvMapService {
     createMarker(
         opts: MarkerOptions = null,
         msg: string = null,
-        pos: Geoposition = null
+        pos: Geoposition = null,
+        docid?: string
     ) {
         // If existing: convert lat & long coords into LatLng
         if (opts) {
             opts.position = new LatLng(opts.lat, opts.lng);
         }
 
-        opts = !opts ? this.createMarkerOptions(msg, pos) : opts; // Generate MarkerOptions if not given
+        opts = !opts ? this.createMarkerOptions(msg, pos, docid) : opts; // Generate MarkerOptions if not given
         opts.visible = false;
 
         // Add marker to map with click event listener
@@ -115,7 +113,12 @@ export class SvMapService {
     }
 
     // Generate marker options from coordinates and string
-    createMarkerOptions(msg: string, pos: Geoposition): MarkerOptions {
+    createMarkerOptions(
+        msg: string,
+        pos: Geoposition,
+        docid: string,
+        picture?: string
+    ): MarkerOptions {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
         this.image.url =
@@ -124,12 +127,13 @@ export class SvMapService {
                 : './assets/img/msg_i.png';
 
         const opts: MarkerOptions = {
+            docid,
             position: new LatLng(lat, lng),
             icon: this.image,
             msg,
             lat,
             lng,
-            picture: null,
+            picture,
             rating: 0,
             user: this.devService.getDeviceID()
         };
@@ -137,6 +141,7 @@ export class SvMapService {
         return opts;
     }
 
+    // Add the marker with given options to map instance
     addMarkerToMap(opts: MarkerOptions) {
         let m: Marker;
 
@@ -152,9 +157,10 @@ export class SvMapService {
                         componentProps: {
                             msg: mrkr.get('msg'),
                             picture: mrkr.get('picture'),
-                            rating: mrkr.get('rating'),
-                            user: mrkr.get('user')
-                        }
+                            user: mrkr.get('user'),
+                            docid: mrkr.get('docid')
+                        },
+                        cssClass: 'details-modal'
                     });
 
                     await modal.present();

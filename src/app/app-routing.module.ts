@@ -12,15 +12,9 @@ const routes: Routes = [
         loadChildren: './tab-info/tab-info.module#TabInfoPageModule'
     },
     {
-        path: 'modal-write',
-        loadChildren: './modal-write/modal-write.module#ModalWritePageModule'
-    },
-    {
-        path: 'modal-details',
-        loadChildren:
-            './modal-details/modal-details.module#ModalDetailsPageModule'
-    },
-  { path: 'tab-profile', loadChildren: './tab-profile/tab-profile.module#TabProfilePageModule' }
+        path: 'tab-profile',
+        loadChildren: './tab-profile/tab-profile.module#TabProfilePageModule'
+    }
 ];
 @NgModule({
     imports: [

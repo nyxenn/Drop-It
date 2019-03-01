@@ -19,6 +19,13 @@ import { Firebase } from '@ionic-native/firebase/ngx';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { ModalDetailsPageModule } from './modal-details/modal-details.module';
+import { ModalPicturePageModule } from './modal-picture/modal-picture.module';
+import { ModalWritePageModule } from './modal-write/modal-write.module';
+import { SvMapService } from './sv-map.service';
+import { SvDeviceService } from './sv-device.service';
+import { SvMessageService } from './sv-message.service';
 
 @NgModule({
     declarations: [AppComponent],
@@ -29,7 +36,11 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
         IonicStorageModule.forRoot(),
         AppRoutingModule,
         AngularFireModule.initializeApp(environment.firebase),
-        AngularFirestoreModule
+        AngularFirestoreModule,
+        AngularFireStorageModule,
+        ModalDetailsPageModule,
+        ModalPicturePageModule,
+        ModalWritePageModule
     ],
     providers: [
         StatusBar,
@@ -39,7 +50,10 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
         Geolocation,
         UniqueDeviceID,
         Firebase,
-        HaversineService
+        HaversineService,
+        SvMessageService,
+        SvMapService,
+        SvDeviceService
     ],
     bootstrap: [AppComponent]
 })
