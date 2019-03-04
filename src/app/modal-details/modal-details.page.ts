@@ -40,9 +40,6 @@ export class ModalDetailsPage implements OnInit {
             this.docid
         );
 
-        console.log('MsgRated', this.messageRated);
-        console.log('MsgBookmarked', this.messageBookmarked);
-
         // Get document from database
         this.afs
             .doc('messages/' + this.docid)
@@ -109,7 +106,9 @@ export class ModalDetailsPage implements OnInit {
     bookmark() {
         const message = {
             id: this.docid,
-            msg: this.msg
+            msg: this.msg,
+            picture: this.picture,
+            user: this.user
         };
 
         this.messageBookmarked = !this.messageBookmarked;

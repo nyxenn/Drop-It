@@ -31,6 +31,7 @@ export class AppComponent {
                 this.deviceService.getDeviceID();
                 this.messageService.getBookmarkedMessages();
                 this.messageService.getRatedMessages();
+                this.messageService.getOwnMessages();
             });
     }
 

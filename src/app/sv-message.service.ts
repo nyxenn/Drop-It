@@ -4,7 +4,7 @@ import { Geoposition } from '@ionic-native/geolocation/ngx';
 import * as firebaseApp from 'firebase/app';
 import * as geofirex from 'geofirex';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { GeoPoint } from '@firebase/firestore-types';
 import { GeoFirePoint } from 'geofirex';
 import { SvDeviceService } from './sv-device.service';
@@ -25,6 +25,18 @@ export class SvMessageService {
         private devService: SvDeviceService
     ) {}
 
+    // Get own messages from local storage
+    getOwnMessages() {
+        if (!this.ownMessages.length) {
+            this.storage.get('own-messages').then(msgs => {
+                this.ownMessages = JSON.parse(msgs);
+                return msgs;
+            });
+        } else {
+            return this.ownMessages;
+        }
+    }
+
     // Get array of rated messages
     getRatedMessages() {
         this.storage.get('rated-messages').then(msgs => {
@@ -37,15 +49,15 @@ export class SvMessageService {
     getRatedMessage(msgId) {
         let message;
 
-        if (!this.ratedMessages) {
+        if (!this.ratedMessages.length) {
             this.getRatedMessages();
         }
 
         for (let i = 0; i < this.ratedMessages.length; i++) {
             if (this.ratedMessages[i].id === msgId) {
                 message = this.ratedMessages[i];
+                break;
             }
-            break;
         }
 
         return message;
@@ -53,7 +65,7 @@ export class SvMessageService {
 
     // Add a message to ratedMessages array, store in local storage
     addRatedMessage(msg) {
-        if (!this.ratedMessages) {
+        if (!this.ratedMessages.length) {
             this.getRatedMessages();
         }
 
@@ -65,15 +77,15 @@ export class SvMessageService {
     checkMessageRated(msgId: string): boolean {
         let found = false;
 
-        if (!this.ratedMessages) {
+        if (!this.ratedMessages.length) {
             this.getRatedMessages();
         }
 
         for (let i = 0; i < this.ratedMessages.length; i++) {
             if (this.ratedMessages[i].id === msgId) {
                 found = true;
+                break;
             }
-            break;
         }
 
         return found;
@@ -84,8 +96,8 @@ export class SvMessageService {
         for (let i = 0; i < this.ratedMessages.length; i++) {
             if (this.ratedMessages[i].id === msg.id) {
                 this.ratedMessages[i].type = msg.type;
+                break;
             }
-            break;
         }
 
         this.storage.set('rated-messages', JSON.stringify(this.ratedMessages));
@@ -93,14 +105,19 @@ export class SvMessageService {
 
     // Get bookmarked messages from local storage
     getBookmarkedMessages() {
-        this.storage.get('bookmarked-messages').then(msgs => {
-            this.bookmarkedMessages = JSON.parse(msgs);
-        });
+        if (!this.bookmarkedMessages.length) {
+            this.storage.get('bookmarked-messages').then(msgs => {
+                this.bookmarkedMessages = JSON.parse(msgs);
+                return msgs;
+            });
+        } else {
+            return this.bookmarkedMessages;
+        }
     }
 
     // Add or remove msg from bookmarkedMessages array
     bookmarkMessage(msg, bookmarked) {
-        if (!this.bookmarkedMessages) {
+        if (!this.bookmarkedMessages.length) {
             this.getBookmarkedMessages();
         }
 
@@ -110,8 +127,8 @@ export class SvMessageService {
             for (let i = 0; i < this.bookmarkedMessages.length; i++) {
                 if (this.bookmarkedMessages[i].id === msg.id) {
                     this.bookmarkedMessages.splice(i, 1);
+                    break;
                 }
-                break;
             }
         }
 
@@ -125,18 +142,17 @@ export class SvMessageService {
     checkMessageBookmarked(msgId: string): boolean {
         let found = false;
 
-        if (!this.bookmarkedMessages) {
+        if (!this.bookmarkedMessages.length) {
             this.getBookmarkedMessages();
         }
 
         for (let i = 0; i < this.bookmarkedMessages.length; i++) {
             if (this.bookmarkedMessages[i].id === msgId) {
                 found = true;
+                break;
             }
-            break;
         }
 
-        console.log(found);
         return found;
     }
 
@@ -145,6 +161,7 @@ export class SvMessageService {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
         const gfxPoint = this.geo.point(lat, lng).data;
+        const user = this.devService.getDeviceID();
 
         const message = {
             docid,
@@ -155,12 +172,13 @@ export class SvMessageService {
             msg,
             picture,
             rating: 0,
-            user: this.devService.getDeviceID()
+            user
         };
 
         // Create message doc in database
         this.afs.doc('messages/' + docid).set(message);
         // Place copy in local storage
+        this.ownMessages.push({ id: docid, msg, picture, user });
         this.storage.set('own-messages', JSON.stringify(this.ownMessages));
     }
 
@@ -199,5 +217,10 @@ export class SvMessageService {
                     rating: up ? doc.data().rating + n : doc.data().rating - n
                 });
             });
+    }
+
+    // Return message's score
+    getScore(docId): Observable<any> {
+        return this.afs.doc(`messages/${docId}`).valueChanges();
     }
 }

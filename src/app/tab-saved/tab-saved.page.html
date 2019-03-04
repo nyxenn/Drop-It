@@ -1,0 +1,48 @@
+<ion-toolbar>
+    <ion-segment
+        [(ngModel)]="selectedSegment"
+        (ionChange)="segmentChanged($event)"
+    >
+        <ion-segment-button value="bookmarked">
+            <p>Bookmarked</p>
+        </ion-segment-button>
+        <ion-segment-button value="written">
+            <p>Written</p>
+        </ion-segment-button>
+    </ion-segment>
+</ion-toolbar>
+
+<ion-content>
+    <ion-slides #slider (ionSlideDidChange)="slideChanged($event)">
+        <ion-slide *ngFor="let slide of slides">
+            <div class="no-items" *ngIf="!slide.items || !slide.items.length">
+                <p>
+                    No messages
+                    <span *ngIf="slide.id === 'bookmarked'">bookmarked</span>
+                    <span *ngIf="slide.id === 'written'">written</span>
+                </p>
+            </div>
+
+            <ion-list *ngIf="slide.items && slide.items.length">
+                <div
+                    *ngFor="let msg of slide.items"
+                    (click)="openDetailsModal(msg)"
+                >
+                    <p id="picture"><span>//PL</span></p>
+
+                    <ion-item id="msg-wrapper" no-padding>
+                        <p id="message">
+                            <ion-label id="user-name">//PL</ion-label>
+                            <ion-label id="msg-content">{{
+                                msg.msg
+                            }}</ion-label>
+                            <ion-label id="msg-score">{{
+                                (msg.id | getScore | async)?.rating
+                            }}</ion-label>
+                        </p>
+                    </ion-item>
+                </div>
+            </ion-list>
+        </ion-slide>
+    </ion-slides>
+</ion-content>

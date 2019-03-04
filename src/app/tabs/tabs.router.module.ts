@@ -17,21 +17,23 @@ const routes: Routes = [
                     }
                 ]
             },
+
+            {
+                path: 'saved',
+                children: [
+                    {
+                        path: '',
+                        loadChildren:
+                            '../tab-saved/tab-saved.module#TabSavedPageModule'
+                    }
+                ]
+            },
             {
                 path: 'tab1',
                 children: [
                     {
                         path: '',
                         loadChildren: '../tab1/tab1.module#Tab1PageModule'
-                    }
-                ]
-            },
-            {
-                path: 'tab3',
-                children: [
-                    {
-                        path: '',
-                        loadChildren: '../tab3/tab3.module#Tab3PageModule'
                     }
                 ]
             },

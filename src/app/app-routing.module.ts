@@ -14,6 +14,10 @@ const routes: Routes = [
     {
         path: 'tab-profile',
         loadChildren: './tab-profile/tab-profile.module#TabProfilePageModule'
+    },
+    {
+        path: 'tab-saved',
+        loadChildren: './tab-saved/tab-saved.module#TabSavedPageModule'
     }
 ];
 @NgModule({
