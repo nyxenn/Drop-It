@@ -11,7 +11,7 @@ import { ModalDetailsPage } from '../modal-details/modal-details.page';
 export class TabSavedPage implements OnInit {
     private bookmarkedMsgs = [];
     private ownMessages = [];
-    private slides = [];
+    public slides = [];
     public selectedSegment = 'bookmarked';
     @ViewChild('slider') slider: IonSlides;
 

@@ -13,11 +13,11 @@ import { SvDeviceService } from './sv-device.service';
     providedIn: 'root'
 })
 export class SvMessageService {
-    public ownMessages = [];
-    public bookmarkedMessages = [];
-    public ratedMessages = [];
-    public dbMessages = [];
-    public locations = [];
+    public ownMessages: any[] = [];
+    public bookmarkedMessages: any[] = [];
+    public ratedMessages: any[] = [];
+    public dbMessages: any[] = [];
+    public locations: any[] = [];
     private geo = geofirex.init(firebaseApp);
     constructor(
         private storage: Storage,
@@ -27,7 +27,7 @@ export class SvMessageService {
 
     // Get own messages from local storage
     getOwnMessages() {
-        if (!this.ownMessages.length) {
+        if (!this.ownMessages || !this.ownMessages.length) {
             this.storage.get('own-messages').then(msgs => {
                 this.ownMessages = JSON.parse(msgs);
                 return msgs;
@@ -49,14 +49,14 @@ export class SvMessageService {
     getRatedMessage(msgId) {
         let message;
 
-        if (!this.ratedMessages.length) {
+        if (!this.ratedMessages || !this.ratedMessages.length) {
             this.getRatedMessages();
-        }
-
-        for (let i = 0; i < this.ratedMessages.length; i++) {
-            if (this.ratedMessages[i].id === msgId) {
-                message = this.ratedMessages[i];
-                break;
+        } else {
+            for (let i = 0; i < this.ratedMessages.length; i++) {
+                if (this.ratedMessages[i].id === msgId) {
+                    message = this.ratedMessages[i];
+                    break;
+                }
             }
         }
 
@@ -65,11 +65,13 @@ export class SvMessageService {
 
     // Add a message to ratedMessages array, store in local storage
     addRatedMessage(msg) {
-        if (!this.ratedMessages.length) {
+        if (!this.ratedMessages || !this.ratedMessages.length) {
             this.getRatedMessages();
         }
 
-        this.ratedMessages.push(msg);
+        let msgs = this.ratedMessages || [];
+        msgs.push(msg);
+        this.ratedMessages = msgs;
         this.storage.set('rated-messages', JSON.stringify(this.ratedMessages));
     }
 
@@ -77,18 +79,18 @@ export class SvMessageService {
     checkMessageRated(msgId: string): boolean {
         let found = false;
 
-        if (!this.ratedMessages.length) {
+        if (!this.ratedMessages || !this.ratedMessages.length) {
             this.getRatedMessages();
-        }
-
-        for (let i = 0; i < this.ratedMessages.length; i++) {
-            if (this.ratedMessages[i].id === msgId) {
-                found = true;
-                break;
+        } else {
+            for (let i = 0; i < this.ratedMessages.length; i++) {
+                if (this.ratedMessages[i].id === msgId) {
+                    found = true;
+                    break;
+                }
             }
-        }
 
-        return found;
+            return found;
+        }
     }
 
     // Update message type in array, store in local storage
@@ -105,7 +107,7 @@ export class SvMessageService {
 
     // Get bookmarked messages from local storage
     getBookmarkedMessages() {
-        if (!this.bookmarkedMessages.length) {
+        if (!this.bookmarkedMessages || !this.bookmarkedMessages.length) {
             this.storage.get('bookmarked-messages').then(msgs => {
                 this.bookmarkedMessages = JSON.parse(msgs);
                 return msgs;
@@ -117,7 +119,7 @@ export class SvMessageService {
 
     // Add or remove msg from bookmarkedMessages array
     bookmarkMessage(msg, bookmarked) {
-        if (!this.bookmarkedMessages.length) {
+        if (!this.bookmarkedMessages || !this.bookmarkedMessages.length) {
             this.getBookmarkedMessages();
         }
 
@@ -142,18 +144,18 @@ export class SvMessageService {
     checkMessageBookmarked(msgId: string): boolean {
         let found = false;
 
-        if (!this.bookmarkedMessages.length) {
+        if (!this.bookmarkedMessages || !this.bookmarkedMessages.length) {
             this.getBookmarkedMessages();
-        }
-
-        for (let i = 0; i < this.bookmarkedMessages.length; i++) {
-            if (this.bookmarkedMessages[i].id === msgId) {
-                found = true;
-                break;
+        } else {
+            for (let i = 0; i < this.bookmarkedMessages.length; i++) {
+                if (this.bookmarkedMessages[i].id === msgId) {
+                    found = true;
+                    break;
+                }
             }
-        }
 
-        return found;
+            return found;
+        }
     }
 
     // Store new message in database and local storage
@@ -177,8 +179,11 @@ export class SvMessageService {
 
         // Create message doc in database
         this.afs.doc('messages/' + docid).set(message);
+
         // Place copy in local storage
-        this.ownMessages.push({ id: docid, msg, picture, user });
+        let msgs = this.ownMessages || [];
+        msgs.push({ id: docid, msg, picture, user });
+        this.ownMessages = msgs;
         this.storage.set('own-messages', JSON.stringify(this.ownMessages));
     }
 
@@ -206,7 +211,7 @@ export class SvMessageService {
     }
 
     // Add or remove a vote from rating
-    voteMessage(docId, up: boolean, rated: boolean) {
+    voteMessage(docId, up: boolean, rated: boolean, user: string) {
         const n = rated ? 2 : 1;
 
         this.afs
@@ -217,10 +222,24 @@ export class SvMessageService {
                     rating: up ? doc.data().rating + n : doc.data().rating - n
                 });
             });
+
+        this.afs
+            .doc(`users/${user}`)
+            .get()
+            .subscribe(doc => {
+                this.afs.doc(`users/${user}`).update({
+                    score: up ? doc.data().score + n : doc.data().score - n
+                });
+            });
     }
 
     // Return message's score
     getScore(docId): Observable<any> {
         return this.afs.doc(`messages/${docId}`).valueChanges();
+    }
+
+    // Return user's total score
+    getTotalScoreUser(userId) {
+        return this.afs.doc(`users/${userId}`).valueChanges();
     }
 }

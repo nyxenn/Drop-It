@@ -73,12 +73,12 @@ export class ModalWritePage implements OnInit {
                 {
                     text: 'Take picture',
                     icon: 'camera',
-                    handler: () => this.takePicture()
+                    handler: () => this.getPicture('camera')
                 },
                 {
                     text: 'Choose from gallery',
                     icon: 'photos',
-                    handler: () => this.choosePicture()
+                    handler: () => this.getPicture('library')
                 },
                 {
                     text: 'Cancel',
@@ -92,13 +92,16 @@ export class ModalWritePage implements OnInit {
     }
 
     // Open camera and return base64 encoded string to represent image
-    takePicture() {
+    getPicture(source: string) {
         const options: CameraOptions = {
             quality: 60,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
-            sourceType: this.camera.PictureSourceType.CAMERA,
+            sourceType:
+                source === 'camera'
+                    ? this.camera.PictureSourceType.CAMERA
+                    : this.camera.PictureSourceType.PHOTOLIBRARY,
             correctOrientation: true
         };
 
@@ -112,14 +115,16 @@ export class ModalWritePage implements OnInit {
                 this.pictureAdded = true;
             },
             async err => {
-                // Handle error
-                const toast = await this.toastCtrl.create({
-                    message:
-                        'Something went wrong while adding your image, please try again later',
-                    duration: 2000
-                });
-                await toast.present();
-                console.log(err);
+                if (err !== 'No Image Selected') {
+                    // Handle error
+                    const toast = await this.toastCtrl.create({
+                        message:
+                            'Something went wrong while adding your image, please try again later',
+                        duration: 2000
+                    });
+                    await toast.present();
+                    console.log(err);
+                }
             }
         );
     }
@@ -134,39 +139,6 @@ export class ModalWritePage implements OnInit {
         }
         const blob = new Blob([int8Array], { type: 'image/jpeg' });
         return blob;
-    }
-
-    // Select picture from phone gallery
-    choosePicture() {
-        const options: CameraOptions = {
-            quality: 60,
-            destinationType: this.camera.DestinationType.DATA_URL,
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE,
-            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-            correctOrientation: true
-        };
-
-        // Get picture from phone gallery
-        this.camera.getPicture(options).then(
-            imageData => {
-                // imageData is a base64 encoded string
-                const base64Image = 'data:image/jpeg;base64,' + imageData;
-                this.picture = base64Image;
-                this.pictureBlob = this.dataURItoBlob(imageData);
-                this.pictureAdded = true;
-            },
-            async err => {
-                // Handle error
-                const toast = await this.toastCtrl.create({
-                    message:
-                        'Something went wrong while adding your image, please try again later',
-                    duration: 2000
-                });
-                await toast.present();
-                console.log(err);
-            }
-        );
     }
 
     // Clear selected picture

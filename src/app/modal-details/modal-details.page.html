@@ -9,12 +9,11 @@
                 id="rating"
                 *ngIf="doc"
                 [ngClass]="{ negative: doc.rating < -10 }"
-                >{{ doc.rating }}</span
-            >
+                [innerHTML]="doc.rating"
+            ></span>
         </div>
         <div class="buttons">
             <div class="button" (click)="vote('up')">
-                <ion-ripple-effect></ion-ripple-effect>
                 <ion-icon
                     name="arrow-round-up"
                     [ngClass]="{ 'upvote-active': messageUpvoted }"
@@ -22,7 +21,6 @@
             </div>
 
             <div class="button" (click)="vote('down')">
-                <ion-ripple-effect></ion-ripple-effect>
                 <ion-icon
                     name="arrow-round-down"
                     [ngClass]="{ 'downvote-active': messageDownvoted }"
@@ -30,7 +28,6 @@
             </div>
 
             <div class="button" (click)="showPicture()">
-                <ion-ripple-effect *ngIf="picture"></ion-ripple-effect>
                 <ion-icon
                     name="image"
                     [ngClass]="{ 'btn-disabled': !picture }"
@@ -38,15 +35,13 @@
             </div>
 
             <div class="button" (click)="bookmark()">
-                <ion-ripple-effect></ion-ripple-effect>
                 <ion-icon
                     name="bookmark"
                     [ngClass]="{ bookmarked: messageBookmarked }"
                 ></ion-icon>
             </div>
 
-            <div class="button">
-                <ion-ripple-effect></ion-ripple-effect>
+            <div class="button" (click)="profile()">
                 <ion-icon name="contact"></ion-icon>
             </div>
         </div>

@@ -29,11 +29,12 @@ const routes: Routes = [
                 ]
             },
             {
-                path: 'tab1',
+                path: 'profile',
                 children: [
                     {
-                        path: '',
-                        loadChildren: '../tab1/tab1.module#Tab1PageModule'
+                        path: ':id',
+                        loadChildren:
+                            '../tab-profile/tab-profile.module#TabProfilePageModule'
                     }
                 ]
             },

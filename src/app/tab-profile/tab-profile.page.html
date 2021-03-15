@@ -1,6 +1,109 @@
 <ion-content>
     <div class="container">
-        <div class="header"></div>
-        <div class="body"></div>
+        <div class="body">
+            <div class="profile-picture">
+                <ion-avatar
+                    (click)="showPicture()"
+                    (dblclick)="changePicture()"
+                >
+                    <img
+                        src="{{
+                            user.picture
+                                ? user.picture
+                                : 'assets/img/no-pic.png'
+                        }}"
+                        alt="profile picture"
+                    />
+                </ion-avatar>
+
+                <div class="user-info" (dblclick)="editInfo('name')">
+                    <span class="username" [hidden]="editing.name">{{
+                        user.name
+                    }}</span>
+                    <ion-input
+                        [hidden]="!editing.name"
+                        maxlength="25"
+                        [(ngModel)]="user.name"
+                        (focusout)="doneEditing('name')"
+                        (keyup.enter)="doneEditing('name')"
+                    ></ion-input>
+                    <br />
+                    <span class="score">{{ score }} points</span>
+                </div>
+
+                <div class="buttons">
+                    <ion-button
+                        color="primary"
+                        (click)="changePicture()"
+                        *ngIf="ownProfile && !pictureAdded"
+                        >Change picture</ion-button
+                    >
+
+                    <ion-button
+                        color="primary"
+                        (click)="submitPicture()"
+                        *ngIf="ownProfile && pictureAdded"
+                        >Submit picture</ion-button
+                    ><br />
+                    <ion-button
+                        color="danger"
+                        (click)="deletePicture()"
+                        *ngIf="ownProfile && pictureAdded"
+                        >Delete picture</ion-button
+                    >
+                </div>
+            </div>
+
+            <div class="profile-info">
+                <p class="info-wrapper" (dblclick)="editInfo('age')">
+                    <span class="profile-info-header">Age</span>
+                    <span class="info" [hidden]="editing.age">{{
+                        user.age
+                    }}</span>
+                    <ion-input
+                        [hidden]="!editing.age"
+                        type="tel"
+                        minlength="1"
+                        maxlength="3"
+                        placeholder="18"
+                        [(ngModel)]="user.age"
+                        (focusout)="doneEditing('age')"
+                        (keyup.enter)="doneEditing('age')"
+                    ></ion-input>
+                </p>
+                <p class="info-wrapper" (dblclick)="editInfo('location')">
+                    <span class="profile-info-header">Location</span>
+                    <span class="info" [hidden]="editing.location">{{
+                        user.location
+                    }}</span>
+                    <ion-input
+                        [hidden]="!editing.location"
+                        maxlength="30"
+                        [(ngModel)]="user.location"
+                        (focusout)="doneEditing('location')"
+                        (keyup.enter)="doneEditing('location')"
+                    ></ion-input>
+                </p>
+                <p class="info-wrapper" (dblclick)="editInfo('bio')">
+                    <span class="profile-info-header">Bio</span>
+                    <span class="info" [hidden]="editing.bio">{{
+                        user.bio
+                    }}</span>
+                    <ion-input
+                        [hidden]="!editing.bio"
+                        maxlength="200"
+                        [(ngModel)]="user.bio"
+                        (focusout)="doneEditing('bio')"
+                        (keyup.enter)="doneEditing('bio')"
+                    ></ion-input>
+                </p>
+                <p class="hint" *ngIf="ownProfile">
+                    Double tap on an item to edit your information
+                </p>
+            </div>
+        </div>
+        <!-- <div class="change-device" *ngIf="ownProfile && showFooter">
+            <span (click)="changeDevice()">Change device</span>
+        </div> -->
     </div>
 </ion-content>

@@ -12,7 +12,7 @@ const routes: Routes = [
         loadChildren: './tab-info/tab-info.module#TabInfoPageModule'
     },
     {
-        path: 'tab-profile',
+        path: 'tab-profile/:id',
         loadChildren: './tab-profile/tab-profile.module#TabProfilePageModule'
     },
     {

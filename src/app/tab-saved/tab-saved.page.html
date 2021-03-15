@@ -28,19 +28,37 @@
                     *ngFor="let msg of slide.items"
                     (click)="openDetailsModal(msg)"
                 >
-                    <p id="picture"><span>//PL</span></p>
+                    <ion-avatar class="picture">
+                        <img
+                            *ngIf="
+                                (msg.user | getUser | async)?.picture;
+                                else noPic;
+                                let pic
+                            "
+                            src="{{ pic }}"
+                            alt="profile picture"
+                        />
+                        <ng-template #noPic>
+                            <img
+                                src="assets/img/no-pic.png"
+                                alt="profile picture"
+                            />
+                        </ng-template>
+                    </ion-avatar>
 
                     <ion-item id="msg-wrapper" no-padding>
                         <p id="message">
-                            <ion-label id="user-name">//PL</ion-label>
-                            <ion-label id="msg-content">{{
+                            <ion-label id="user-name">{{
+                                (msg.user | getUser | async)?.name
+                            }}</ion-label
+                            ><ion-label id="msg-content">{{
                                 msg.msg
-                            }}</ion-label>
-                            <ion-label id="msg-score">{{
+                            }}</ion-label
+                            ><ion-label id="msg-score">{{
                                 (msg.id | getScore | async)?.rating
                             }}</ion-label>
-                        </p>
-                    </ion-item>
+                        </p></ion-item
+                    >
                 </div>
             </ion-list>
         </ion-slide>

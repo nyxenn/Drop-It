@@ -13,6 +13,7 @@ import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { HaversineService } from 'ng2-haversine';
 
 import { Firebase } from '@ionic-native/firebase/ngx';
@@ -49,6 +50,7 @@ import { SvMessageService } from './sv-message.service';
         GoogleMaps,
         Geolocation,
         UniqueDeviceID,
+        Keyboard,
         Firebase,
         HaversineService,
         SvMessageService,

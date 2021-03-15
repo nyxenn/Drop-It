@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { ModalPicturePage } from '../modal-picture/modal-picture.page';
 import { SvMessageService } from '../sv-message.service';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-modal-details',
@@ -25,7 +26,8 @@ export class ModalDetailsPage implements OnInit {
     constructor(
         private modalCtrl: ModalController,
         private msgService: SvMessageService,
-        private afs: AngularFirestore
+        private afs: AngularFirestore,
+        private router: Router
     ) {}
 
     ngOnInit() {
@@ -74,14 +76,24 @@ export class ModalDetailsPage implements OnInit {
         if (type === 'up' && !this.messageUpvoted) {
             this.messageUpvoted = true;
             this.messageDownvoted = false;
-            this.msgService.voteMessage(this.docid, true, this.messageRated);
+            this.msgService.voteMessage(
+                this.docid,
+                true,
+                this.messageRated,
+                this.user
+            );
         }
 
         // Remove -1 (-2 if already voted) from message score
         if (type === 'down' && !this.messageDownvoted) {
             this.messageUpvoted = false;
             this.messageDownvoted = true;
-            this.msgService.voteMessage(this.docid, false, this.messageRated);
+            this.msgService.voteMessage(
+                this.docid,
+                false,
+                this.messageRated,
+                this.user
+            );
         }
 
         // Add message to ratedMessages array or update the type (up/down)
@@ -114,5 +126,13 @@ export class ModalDetailsPage implements OnInit {
         this.messageBookmarked = !this.messageBookmarked;
 
         this.msgService.bookmarkMessage(message, this.messageBookmarked);
+    }
+
+    // Navigate to a user's profile
+    profile() {
+        this.modalCtrl.dismiss();
+        this.router.navigate([`tabs/profile/${this.user}`], {
+            queryParams: { id: this.user }
+        });
     }
 }
